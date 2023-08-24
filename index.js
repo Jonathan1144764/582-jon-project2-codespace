@@ -9,7 +9,7 @@ const bodyParser = require("body-parser");
 
 const { MongoClient } = require("mongodb");
 
-const uri = "mongo database connection string";
+const uri = "mongodb+srv://1144764:Re17AjPv640Uyg@cluster0.tkarxff.mongodb.net/?retryWrites=true&w=majority";
 
 app.use(bodyParser.json());
 
