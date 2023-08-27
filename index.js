@@ -20,7 +20,21 @@ app.get("/", (req, res) => {
       const database = client.db("localparks");
       const users = database.collection("users");
       const result = await users.find({}).toArray();
-      console.log(result);
+      res.send(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(console.dir);
+});
+
+app.post("/", (req, res) => {
+  const client = new MongoClient(uri);
+  async function run() {
+    try {
+      const database = client.db("localparks");
+      const users = database.collection("users");
+      const result = await users.insertOne(req.body);
       res.send(result);
     } finally {
       await client.close();
