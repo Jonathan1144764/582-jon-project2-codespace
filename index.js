@@ -18,15 +18,30 @@ app.get("/admin", (req, res) => {
   async function run() {
     try {
       const database = client.db("localparks");
-      const parks = database.collections("parks");
-      const result = (await parks).find({}).toArray();
+      const parks = database.collection("parks");
+      const result = await parks.find({}).toArray();
       res.send(result);
     } finally {
       await client.close();
     }
   }
   run().catch(console.dir);
-})
+});
+
+app.post("/admin", (req, res) => {
+  const client = new MongoClient(uri);
+  async function run() {
+    try {
+      const database = client.db("localparks");
+      const parks = database.collection("parks");
+      const result = await parks.insertOne(req.body);
+      res.send(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(console.dir);
+});
 
 app.get("/", (req, res) => {
   const client = new MongoClient(uri);
