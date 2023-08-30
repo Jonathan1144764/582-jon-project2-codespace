@@ -54,7 +54,6 @@ app.put("/admin/updatepark", (req, res) => {
 });
 
 app.delete("/admin/updatepark", (req, res) => {
-  console.log(req.body);
   const client = new MongoClient(uri);
   async function run() {
     try {
