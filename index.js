@@ -13,13 +13,13 @@ const uri = "mongodb+srv://1144764:Re17AjPv640Uyg@cluster0.tkarxff.mongodb.net/?
 
 app.use(bodyParser.json());
 
-app.get("/admin", (req, res) => {
+app.post("/admin/newpark", (req, res) => {
   const client = new MongoClient(uri);
   async function run() {
     try {
       const database = client.db("localparks");
       const parks = database.collection("parks");
-      const result = await parks.find({}).toArray();
+      const result = await parks.insertOne(req.body);
       res.send(result);
     } finally {
       await client.close();
@@ -28,13 +28,54 @@ app.get("/admin", (req, res) => {
   run().catch(console.dir);
 });
 
-app.post("/admin", (req, res) => {
+app.put("/admin/updatepark", (req, res) => {
   const client = new MongoClient(uri);
   async function run() {
     try {
       const database = client.db("localparks");
       const parks = database.collection("parks");
-      const result = await parks.insertOne(req.body);
+      const result = await parks.updateOne(
+        {id: req.body.id},
+        {$set:{
+          parkName: req.body.parkName,
+          parkImage: req.body.parkImage,
+          parkStatus: req.body.parkStatus,
+          soccerFields: req.body.soccerFields,
+          baseballDiamonds: req.body.baseballDiamonds,
+          parkBathrooms: req.body.parkBathrooms,
+          parkPlaygrounds: req.body.parkPlaygrounds
+        }});
+      res.send(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(console.dir)
+});
+
+app.delete("/admin/updatepark", (req, res) => {
+  console.log(req.body);
+  const client = new MongoClient(uri);
+  async function run() {
+    try {
+      const database = client.db("localparks");
+      const parks = database.collection("parks");
+      const result = await parks.deleteOne({id: req.body.id});
+      res.send(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(console.dir)
+});
+
+app.get("/admin", (req, res) => {
+  const client = new MongoClient(uri);
+  async function run() {
+    try {
+      const database = client.db("localparks");
+      const parks = database.collection("parks");
+      const result = await parks.find({}).toArray();
       res.send(result);
     } finally {
       await client.close();
