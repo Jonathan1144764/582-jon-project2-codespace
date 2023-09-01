@@ -26,7 +26,22 @@ app.get("/admin/newevent", (req, res) => {
     }
   }
   run().catch(console.dir);
-})
+});
+
+app.post("/admin/newevent", (req, res) => {
+  const client = new MongoClient(uri);
+  async function run() {
+    try {
+      const database = client.db("localparks");
+      const events = database.collection("events");
+      const result = await events.insertOne(req.body);
+      res.send(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(console.dir);
+});
 
 app.post("/admin/newpark", (req, res) => {
   const client = new MongoClient(uri);
