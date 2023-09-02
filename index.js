@@ -28,6 +28,21 @@ app.get("/admin/updateevent/park", (req, res) => {
   run().catch(console.dir);
 });
 
+app.delete("/admin/updateevent", (req, res) => {
+  const client = new MongoClient(uri);
+  async function run() {
+    try {
+      const database = client.db("localparks");
+      const events = database.collection("events");
+      const result = await events.deleteOne({id: req.body.id});
+      res.send(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(console.dir)
+});
+
 app.put("/admin/updateevent", (req, res) => {
   const client = new MongoClient(uri);
   async function run() {
