@@ -28,6 +28,27 @@ app.get("/admin/updateevent/park", (req, res) => {
   run().catch(console.dir);
 });
 
+app.put("/admin/updateevent", (req, res) => {
+  const client = new MongoClient(uri);
+  async function run() {
+    try {
+      const database = client.db("localparks");
+      const events = database.collection("events");
+      const result = await events.updateOne({id: req.body.id}, {$set:{
+        eventName: req.body.eventName,
+        eventLocation: req.body.eventLocation,
+        eventStartDate: req.body.eventStartDate,
+        eventEndDate: req.body.eventEndDate,
+        eventDescription: req.body.eventDescription,
+      }});
+      res.send(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(console.dir);
+});
+
 app.get("/admin/updateevent", (req, res) => {
   const client = new MongoClient(uri);
   async function run() {
