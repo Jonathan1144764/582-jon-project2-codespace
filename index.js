@@ -169,7 +169,7 @@ app.get("/public/user", (req, res) => {
   async function run() {
     try {
       const database = client.db("localparks");
-      const users = database.collection("userss");
+      const users = database.collection("users");
       const result = await users.find({}).toArray();
       res.send(result);
     } finally {
