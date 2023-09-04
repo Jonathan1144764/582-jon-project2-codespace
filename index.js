@@ -164,6 +164,21 @@ app.delete("/admin/updatepark", (req, res) => {
   run().catch(console.dir)
 });
 
+app.get("/public/user", (req, res) => {
+  const client = new MongoClient(uri);
+  async function run() {
+    try {
+      const database = client.db("localparks");
+      const users = database.collection("userss");
+      const result = await users.find({}).toArray();
+      res.send(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(console.dir);
+});
+
 app.get("/public/event", (req, res) => {
   const client = new MongoClient(uri);
   async function run() {
