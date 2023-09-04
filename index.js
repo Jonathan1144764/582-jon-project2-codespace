@@ -179,6 +179,21 @@ app.get("/public/event", (req, res) => {
   run().catch(console.dir);
 });
 
+app.put("/public", (req, res) => {
+  const client = new MongoClient(uri);
+  async function run() {
+    try {
+      const database = client.db("localparks");
+      const users = database.collection("users");
+      const result = await users.updateOne({username: req.body.user}, {$push:{bookmarkedEvents: req.body.event}});
+      res.send(result);
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(console.dir);
+})
+
 app.get("/public", (req, res) => {
   const client = new MongoClient(uri);
   async function run() {
