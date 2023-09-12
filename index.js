@@ -269,6 +269,12 @@ app.post("/", (req, res) => {
   run().catch(console.dir);
 });
 
+app.use("/static", express.static("/public"));
+
+app.use((req, res) => {
+  res.status(404).sendFile(__dirname + "/public/404.html");
+});
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
   });
