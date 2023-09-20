@@ -138,7 +138,7 @@ app.put("/admin/updatepark", (req, res) => {
           parkStatus: req.body.parkStatus,
           soccerFields: req.body.soccerFields,
           baseballDiamonds: req.body.baseballDiamonds,
-          parkBathrooms: req.body.parkBathrooms,
+          parkChalets: req.body.parkChalets,
           parkPlaygrounds: req.body.parkPlaygrounds
         }});
       res.send(result);
